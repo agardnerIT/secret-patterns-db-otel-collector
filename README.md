@@ -1,5 +1,6 @@
-# secret-patterns-db to OpenTelemetry Collector Filter Rules
-Takes [mazen160/secrets-patterns-db/rules-stable.yml](https://github.com/mazen160/secrets-patterns-db/blob/master/db/rules-stable.yml) and converts the high confidence rules to OpenTelemetry Collector filter configurations.
+# secret-patterns-db to OpenTelemetry Collector Filter and Transfor Rules
+
+Takes [mazen160/secrets-patterns-db/rules-stable.yml](https://github.com/mazen160/secrets-patterns-db/blob/master/db/rules-stable.yml) and converts the high confidence rules to OpenTelemetry Collector filter and transform configurations.
 
 There are two files depending on which scenario you want:
 * Drop (filter out) telemetry (basic usage) ([collector.out.yaml](collector.out.yaml) uses the filter processor)
