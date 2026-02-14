@@ -1,5 +1,5 @@
 # secret-patterns-db-otel-collector
-Takes mazen160/secrets-patterns-db and converts rules to OpenTelemetry Collector filter configurations.
+Takes [mazen160/secrets-patterns-db/rules-stable.yml](https://github.com/mazen160/secrets-patterns-db/blob/master/db/rules-stable.yml) and converts the high confidence rules to OpenTelemetry Collector filter configurations.
 
 ## Usage
 
