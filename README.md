@@ -14,7 +14,9 @@ Then start the collector
 /path/to/collector --config=collector.out.yaml
 ```
 
-You should NOT see the log line in the collector output.
+You should NOT see the log line in the collector output because the log line should be filtered out by the rule.
+
+If you DO see the log line in the collector output, please open an issue here as the regex is wrong!
 
 ## Adding new rules
 
