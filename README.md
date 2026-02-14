@@ -1,4 +1,4 @@
-# secret-patterns-db-otel-collector
+# secret-patterns-db to OpenTelemetry Collector Filter Rules
 Takes [mazen160/secrets-patterns-db/rules-stable.yml](https://github.com/mazen160/secrets-patterns-db/blob/master/db/rules-stable.yml) and converts the high confidence rules to OpenTelemetry Collector filter configurations.
 
 ## Usage
@@ -16,4 +16,8 @@ Then start the collector
 
 You should NOT see the log line in the collector output.
 
+## Adding new rules
 
+This repo should not get out of sync with the main rule list.
+
+If you have new patterns, please contribute them to [mazen160/secrets-patterns-db](https://github.com/mazen160/secrets-patterns-db) and this repo be updated _from_ that repo.
