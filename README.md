@@ -27,9 +27,10 @@ or:
 ```
 
 
-You should NOT see the log line in the collector output because the log line should be filtered out by the rule.
+If using `collector.out.yaml` you should NOT see the log line in the collector output because the log line should be filtered out by the rule.
+If using `collector.transform.yaml` you SHOULD see the log line, but it should be set to `REDACTED`
 
-If you DO see the log line in the collector output, please open an issue here as the regex is wrong!
+In either case, if you see the original (unredacted) log line, please raise an issue in this repo.
 
 ## Adding new rules
 
