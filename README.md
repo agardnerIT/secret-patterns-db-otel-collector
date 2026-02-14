@@ -2,8 +2,8 @@
 Takes [mazen160/secrets-patterns-db/rules-stable.yml](https://github.com/mazen160/secrets-patterns-db/blob/master/db/rules-stable.yml) and converts the high confidence rules to OpenTelemetry Collector filter configurations.
 
 There are two files depending on which scenario you want:
-* Drop (filter out) telemetry (basic usage) ([collector.out.yaml](collector.out.yaml))
-* Redact log lines and push redacted log into the backend system (advanced but allows for team attribution) ([collector.transform.yaml](collector.transform.yaml))
+* Drop (filter out) telemetry (basic usage) ([collector.out.yaml](collector.out.yaml) uses the filter processor)
+* Redact log lines and push redacted log into the backend system (advanced but allows for team attribution) ([collector.transform.yaml](collector.transform.yaml) uses the transform processor)
 
 
 ## Usage
