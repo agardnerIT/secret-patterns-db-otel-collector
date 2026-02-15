@@ -59,6 +59,18 @@ When using the filter processor, metrics are available on port 8888 at the `/met
 - `otelcol_processor_filter_logs_filtered_total` - number of filtered log records
 - `otelcol_processor_outgoing_items_total` - number of log lines being sent out of the processor
 
+### Important Note
+
+The `service.telemetry.metrics` section and the `-p 8888:8888` flag are **only needed for demo purposes**.
+
+This configuration exposes metrics on all interfaces (`0.0.0.0`) so you can access them at `http://localhost:8888` from your host machine.
+
+In a production setup:
+1. Remove the `service.telemetry.metrics` block from the YAML
+2. Remove the `-p 8888:8888` from the docker run command
+
+The Prometheus scrape configuration inside the YAML will still work for self-scraping without these items (ie. the collector can scrape itself).
+
 ## License
 
 Apache
