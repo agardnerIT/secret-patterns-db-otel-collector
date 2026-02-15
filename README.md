@@ -54,7 +54,7 @@ docker run -p 8888:8888 -v $(pwd)/collector.transform.yaml:/etc/otelcol-contrib/
 
 ## Metrics
 
-When using the filter processor, metrics are available on port 8888:
+When using the filter processor, metrics are available on port 8888 at the `/metrics` endpoint (ie. `http://localhost:8888/metrics`):
 - `otelcol_processor_incoming_items_total` - number of log lines sent into the processor
 - `otelcol_processor_filter_logs_filtered_total` - number of filtered log records
 - `otelcol_processor_outgoing_items_total` - number of log lines being sent out of the processor
