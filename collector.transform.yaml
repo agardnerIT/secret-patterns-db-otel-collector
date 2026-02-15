@@ -961,6 +961,19 @@ exporters:
   debug:
     verbosity: detailed
 service:
+  # Warning! This exposes the internal Prometheus
+  # metrics on ALL interfaces
+  # We use this in the demo for containerised environments
+  # But you probably do NOT want to do this in a real environment!
+  # This is NOT necessary if you are running a collector binary
+  telemetry:
+    metrics:
+      readers:
+        - pull:
+            exporter:
+              prometheus:
+                host: '0.0.0.0'
+                port: 8888
   pipelines:
     logs:
       receivers:
