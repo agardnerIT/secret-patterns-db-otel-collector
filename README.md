@@ -4,11 +4,11 @@ A collection of high-confidence secret detection rules for OpenTelemetry Collect
 
 ## Background
 
-This project generates OpenTelemetry Collector configurations that detect secrets in log files. Rules are derived from the [secrets-patterns-db](https://github.com/mazen160/secrets-patterns-db) project.
+This project contains OpenTelemetry Collector configurations that detect secrets in log files. Rules are derived from the [secrets-patterns-db](https://github.com/mazen160/secrets-patterns-db) project.
 
 ## Two Files, Two Scenarios
 
-This project generates two output files:
+This repo contains two output files:
 
 ### 1. collector.out.yaml (Filter Processor)
 
