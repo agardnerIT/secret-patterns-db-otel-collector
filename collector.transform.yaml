@@ -1,9 +1,25 @@
 receivers:
+  # Monitor and ingest the test.log file
   filelog:
     include:
     - test.log
     start_at: beginning
+  # Self scrape http://127.0.0.1:8888/metrics
+  # This provides metrics for the filter (and other collector metrics)
+  prometheus:
+      config:
+        scrape_configs:
+          - job_name: 'secret-patterns-db'
+            scrape_interval: 5s
+            metrics_path: '/metrics'
+            static_configs:
+              - targets: ['127.0.0.1:8888']
 processors:
+  # Use transform processor
+  # to find secret items and if found
+  # set the entire log body to "REDACTED"
+  # Notice we don't try any clever parsing, intepretation or replacements
+  # as that is always error prone and thus prone to leak keys
   transform:
     error_mode: ignore
     log_statements:
@@ -982,3 +998,8 @@ service:
       - transform
       exporters:
       - debug
+    metrics:
+      receivers:
+        - prometheus
+      exporters:
+        - debug

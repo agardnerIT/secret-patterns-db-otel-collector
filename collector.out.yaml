@@ -1,9 +1,23 @@
 receivers:
+  # Monitor and ingest the test.log file
   filelog:
     include:
     - test.log
     start_at: beginning
+  # Self scrape http://127.0.0.1:8888/metrics
+  # This provides metrics for the filter (and other collector metrics)
+  prometheus:
+      config:
+        scrape_configs:
+          - job_name: 'secret-patterns-db'
+            scrape_interval: 5s
+            metrics_path: '/metrics'
+            static_configs:
+              - targets: ['127.0.0.1:8888']
+
 processors:
+  # Use the filter processor
+  # to filter OUT (drop) any log lines where the body contains sensitive information
   filter:
     error_mode: ignore
     logs:
@@ -931,3 +945,8 @@ service:
       - filter
       exporters:
       - debug
+    metrics:
+      receivers:
+        - prometheus
+      exporters:
+        - debug
