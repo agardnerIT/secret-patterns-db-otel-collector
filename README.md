@@ -34,34 +34,30 @@ Uses the `transform` processor to replace matched secrets with `REDACTED`.
 
 ## Usage
 
-### Generate the Configurations
+## Prerequisites
 
-```bash
-# Generate collector.out.yaml (filter processor)
-python download_rules.py
-
-# Generate collector.transform.yaml (transform processor)
-python generate_transform.py
-```
+- Docker / Podman
 
 ### Run with Docker
 
 ```bash
 # Filter processor
-docker run -v $(pwd)/collector.out.yaml:/etc/otelcol-contrib/config.yaml otelcol-contrib --config=/etc/otelcol-contrib/config.yaml
+docker run -p 8888:8888 -v $(pwd)/collector.out.yaml:/etc/otelcol-contrib/config.yaml \
+  -v $(pwd)/test.log:/test.log \
+  otel/opentelemetry-collector-contrib:latest --config=/etc/otelcol-contrib/config.yaml
 
 # Transform processor
-docker run -v $(pwd)/collector.transform.yaml:/etc/otelcol-contrib/config.yaml otelcol-contrib --config=/etc/otelcol-contrib/config.yaml
+docker run -p 8888:8888 -v $(pwd)/collector.transform.yaml:/etc/otelcol-contrib/config.yaml \
+  -v $(pwd)/test.log:/test.log \
+  otel/opentelemetry-collector-contrib:latest --config=/etc/otelcol-contrib/config.yaml
 ```
-
-## Prerequisites
-
-- Docker / Podman
 
 ## Metrics
 
 When using the filter processor, metrics are available on port 8888:
-- `otelcol_processor_filter_logs_filtered` - counter of filtered log records
+- `otelcol_processor_incoming_items_total` - number of log lines sent into the processor
+- `otelcol_processor_filter_logs_filtered_total` - number of filtered log records
+- `otelcol_processor_outgoing_items_total` - number of log lines being sent out of the processor
 
 ## License
 
