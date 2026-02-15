@@ -1,40 +1,71 @@
-# secret-patterns-db to OpenTelemetry Collector Filter and Transform Rules
+# Secret Patterns DB - OpenTelemetry Collector
 
-Takes [mazen160/secrets-patterns-db/rules-stable.yml](https://github.com/mazen160/secrets-patterns-db/blob/master/db/rules-stable.yml) and converts the high confidence rules to OpenTelemetry Collector filter and transform configurations.
+A collection of high-confidence secret detection rules for OpenTelemetry Collector.
 
-There are two files depending on which scenario you want:
-* Drop (filter out) telemetry (basic usage) ([collector.out.yaml](collector.out.yaml) uses the filter processor)
-* Redact log lines and push redacted log into the backend system (advanced but allows for team attribution) ([collector.transform.yaml](collector.transform.yaml) uses the transform processor)
+## Background
 
+This project generates OpenTelemetry Collector configurations that detect secrets in log files. Rules are derived from the [secrets-patterns-db](https://github.com/mazen160/secrets-patterns-db) project.
+
+## Two Files, Two Scenarios
+
+This project generates two output files:
+
+### 1. collector.out.yaml (Filter Processor)
+
+Uses the `filter` processor to drop logs that match secret patterns.
+
+**Best for:** Teams who run their own collector instance.
+
+**Why this approach?**
+- You know exactly which files the redactions came from
+- Use collector metrics (available on port 8888) to chart and alert on any redactions
+- Simple drop-only approach - matched logs are discarded
+
+### 2. collector.transform.yaml (Transform Processor)
+
+Uses the `transform` processor to replace matched secrets with `REDACTED`.
+
+**Best for:** SRE teams or central collector instances where it's not immediately obvious which team or file the redactions came from.
+
+**Why this approach?**
+- The `REDACTED` log can be safely pushed to an observability tool
+- Metrics and alerts can be generated in the third-party tool itself
+- Useful when you don't own the source of the logs
 
 ## Usage
 
-Create `file.log` and put some (fake) sensitive info into it. For example:
+### Generate the Configurations
 
-```
-First log line AKIAIOSFODNN7EXAMPLE
-```
+```bash
+# Generate collector.out.yaml (filter processor)
+python download_rules.py
 
-Then start the collector:
-
-```
-/path/to/collector --config=collector.out.yaml
+# Generate collector.transform.yaml (transform processor)
+python generate_transform.py
 ```
 
-or:
+### Run with Docker
 
+```bash
+# Filter processor
+docker run -v $(pwd)/collector.out.yaml:/etc/otelcol-contrib/config.yaml otelcol-contrib --config=/etc/otelcol-contrib/config.yaml
+
+# Transform processor
+docker run -v $(pwd)/collector.transform.yaml:/etc/otelcol-contrib/config.yaml otelcol-contrib --config=/etc/otelcol-contrib/config.yaml
 ```
-/path/to/collector --config=collector.transform.yaml
-```
 
+## Prerequisites
 
-If using `collector.out.yaml` you should NOT see the log line in the collector output because the log line should be filtered out by the rule.
-If using `collector.transform.yaml` you SHOULD see the log line, but it should be set to `REDACTED`
+- Docker / Podman
 
-In either case, if you see the original (unredacted) log line, please raise an issue in this repo.
+## Metrics
 
-## Adding new rules
+When using the filter processor, metrics are available on port 8888:
+- `otelcol_processor_filter_logs_filtered` - counter of filtered log records
 
-This repo should not get out of sync with the main rule list.
+## License
 
-If you have new patterns, please contribute them to [mazen160/secrets-patterns-db](https://github.com/mazen160/secrets-patterns-db) and this repo be updated _from_ that repo.
+Apache
+
+## AI Assisted
+Parts of this repo were generated using [OpenCode](https://opencode.ai)
